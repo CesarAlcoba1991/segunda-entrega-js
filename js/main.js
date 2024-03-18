@@ -1,4 +1,4 @@
-//Declaracion de variables
+//Variables
 let calificacionFinal = [];
 let nombreEstudiante;
 let notaFinal;
@@ -7,7 +7,7 @@ let contador = {
     mayores10: 0
 };
 
-//Ciclo para ingresar datos al array y contar calificaciones menores y mayores que 10 en el objeto
+//Ciclo para ingresar datos al array y contador para notas mayores y menores que 10 y verificar el rango permitido
 do {
     nombreEstudiante = prompt("-***- Bienvenido al sistema de promedio por sección -***-\n \nIngresar nombre del estudiante.\n \nPara salir del sistema escribir \"ESCAPE\".");
 
@@ -15,15 +15,17 @@ do {
         break;
     }
 
-    notaFinal = parseInt(prompt("Ingresar la calificacion final del estudiante ingresado"));
+    do {
+        notaFinal = parseInt(prompt("Ingresar la calificacion final del estudiante ingresado (0-20)"));
+    } while (isNaN(notaFinal) || notaFinal < 0 || notaFinal > 20);
 
+    // Contador de notas menores y mayores que 10
     if (notaFinal <= 9) {
         contador.menores10++;
     } else if (notaFinal >= 10) {
         contador.mayores10++;
     }
 
-    //Agregar información al array
     let infoAgregada = {
         estudiante: nombreEstudiante,
         calificacionFinal: notaFinal,
@@ -32,19 +34,16 @@ do {
 
 } while (nombreEstudiante.toLocaleUpperCase() !== "ESCAPE");
 
-
-//Función para sumar calificaciones ingresadas
 function sumaDeCalificacion() {
     return calificacionFinal.reduce((acum, nota) => acum + nota.calificacionFinal, 0);
 }
-//Función para calcular el promedio de las notas ingresadas
+
 function promedioDeLaSeccion() {
     let total = sumaDeCalificacion();
     let promedio = total / calificacionFinal.length;
     return parseFloat(promedio.toFixed(2));
 }
 
-//Mensaje final por medio de un alert
 alert("El promedio total de la sección es: " + promedioDeLaSeccion() + "\nLa cantidad de estudiantes ingresados fueron: " + calificacionFinal.length +
     "\nCantidad de estudiantes con calificación menor a 10: " + contador.menores10 +
     "\nCantidad de estudiantes con calificación mayor a 10: " + contador.mayores10);
